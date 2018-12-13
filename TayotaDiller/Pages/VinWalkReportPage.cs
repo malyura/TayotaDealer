@@ -2,7 +2,7 @@
 using System.Linq;
 using Framework.Elements;
 using OpenQA.Selenium;
-using TayotaDiller.Menus;
+using TayotaDiller.Enums;
 using Framework;
 using Framework.Utils;
 using TayotaDiller.Models;
@@ -47,7 +47,7 @@ namespace TayotaDiller.Pages
             {
                 if (vinWalkReports[i].Year > vinWalkReports[i + 1].Year)
                 {
-                    logger.Warn(string.Format("VIN Walk report item with VIN value {0} incorectly sorted", vinWalkReports[i].VIN));
+                    logger.Warn(string.Format("VIN Walk report item with VIN value {0} incorrectly sorted", vinWalkReports[i].VIN));
                     return false;
                 }
             }

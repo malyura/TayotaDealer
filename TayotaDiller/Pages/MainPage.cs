@@ -7,7 +7,7 @@ namespace TayotaDiller.Pages
 {
     public class MainPage : BasePage
     {
-        private static By _mainPageLoc = By.XPath("//div[normalize-space(@data-module-name)='OptimizationDashboard']");
+        private static readonly By _mainPageLoc = By.XPath("//div[normalize-space(@data-module-name)='OptimizationDashboard']");
 
         public NavigationMenu NavigationMenu => new NavigationMenu();
 

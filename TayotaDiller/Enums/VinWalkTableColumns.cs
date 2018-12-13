@@ -1,4 +1,4 @@
-﻿namespace TayotaDiller.Menus
+﻿namespace TayotaDiller.Enums
 {
     public enum VinWalkTableColumns
     {

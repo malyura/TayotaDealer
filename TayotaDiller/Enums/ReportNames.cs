@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace TayotaDiller.Menus
+namespace TayotaDiller.Enums
 {
     public enum ReportNames
     {

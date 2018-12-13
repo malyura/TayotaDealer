@@ -2,6 +2,7 @@
 using Framework.Elements;
 using Framework.Utils;
 using OpenQA.Selenium;
+using TayotaDiller.Enums;
 
 namespace TayotaDiller.Menus
 {

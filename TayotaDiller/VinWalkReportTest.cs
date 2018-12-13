@@ -1,13 +1,12 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Framework;
+using TayotaDiller.Enums;
 using TayotaDiller.Pages;
-using TayotaDiller.Menus;
-using TayotaDiller.Menus;
 
 namespace TayotaDiller
 {
     [TestClass]
-    public class SortReportTest : BaseTest
+    public class VinWalkReportTest : BaseTest
     {
         [TestMethod]
         public void RunTest()
