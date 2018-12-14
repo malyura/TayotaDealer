@@ -2,7 +2,7 @@
 using Framework.Elements;
 using Framework.Utils;
 using OpenQA.Selenium;
-using TayotaDiller.Enums;
+using TayotaDealer.Enums;
 
 namespace TayotaDiller.Menus
 {
@@ -22,7 +22,7 @@ namespace TayotaDiller.Menus
 
         private Label GetNavigationMenuItem(NavigationMenuItems item)
         {
-            return new Label(By.XPath(string.Format(_navigationMenuItemLoc, EnumUtil.GetEnumDescription(item))), item.ToString());
+            return new Label(By.XPath(string.Format(_navigationMenuItemLoc, EnumUtils.GetEnumDescription(item))), item.ToString());
         }
     }
 }

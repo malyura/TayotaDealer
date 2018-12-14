@@ -16,11 +16,18 @@ namespace Framework
                 switch (Config.Browser)
                 {
                     case BrowserTypes.Firefox:
-                        _driver = new FirefoxDriver();
+                        var firefoxOptions = new FirefoxOptions();
+                        firefoxOptions.SetPreference("browser.download.folderList", 2);
+                        firefoxOptions.SetPreference("browser.download.dir", Config.DownloadsDir);
+                        firefoxOptions.SetPreference("browser.helperApps.neverAsk.saveToDisk", "application/octet-stream");
+                        _driver = new FirefoxDriver(firefoxOptions);
                         break;
 
                     case BrowserTypes.Chrome:
-                        _driver = new ChromeDriver();
+                        var chromeOptions = new ChromeOptions();
+                        chromeOptions.AddUserProfilePreference("download.default_directory", Config.DownloadsDir);
+                        chromeOptions.AddUserProfilePreference("safebrowsing.enabled", true);
+                        _driver = new ChromeDriver(chromeOptions);
                         break;
 
                     case BrowserTypes.Unknown:
@@ -40,7 +47,7 @@ namespace Framework
         {
             if (_driver != null)
             {
-                _driver.Quit();
+                //_driver.Quit();
                 _driver = null;
             }
         }

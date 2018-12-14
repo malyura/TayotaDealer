@@ -1,15 +1,15 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Framework;
-using TayotaDiller.Enums;
-using TayotaDiller.Pages;
+﻿using Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using TayotaDealer.Enums;
+using TayotaDealer.Pages;
 
 namespace TayotaDiller
 {
     [TestClass]
     public class VinWalkReportTest : BaseTest
     {
-        [TestMethod]
-        public void RunTest()
+        [TestInitialize]
+        public void Precondition()
         {
             logger.Info("Step_1 Login on Login page");
             var loginPage = new LoginPage();
@@ -24,7 +24,11 @@ namespace TayotaDiller
             logger.Info("Step_3 Select 'VIN walk' report on Reports page");
             var reportsPage = new ReportsPage();
             reportsPage.ClickReportNameLink(ReportNames.VinWalk);
+        }
 
+        [TestMethod]
+        public void SortYearTest()
+        {
             logger.Info("Step_4 Check sorting by Year on Vin Walk Report page");
             var vinWalkReportPage = new VinWalkReportPage();
             vinWalkReportPage.ClickUpdateResultsBtn();
@@ -33,6 +37,18 @@ namespace TayotaDiller
                 "Sort ascending for column 'Year' isn't active");
             Assert.IsTrue(vinWalkReportPage.IsCorrectSortAscending(VinWalkTableColumns.Year),
                 "Sort ascending for column 'Year' isn't correct");
+        }
+
+        [TestMethod]
+        public void ExportReportTest()
+        {
+            logger.Info("Step_4 Check export to Csv on Vin Walk Report page");
+            var vinWalkReportPage = new VinWalkReportPage();
+            vinWalkReportPage.ClickUpdateResultsBtn();
+            vinWalkReportPage.DownloadVinWalkReportFile(FileTypes.Csv);
+            //Assert.IsTrue(vinWalkReportPage.IsExistsFileWithType(FileTypes.Csv),
+            //    $"File type {FileTypes.Csv} not found");
+            vinWalkReportPage.CheckReportFile(FileTypes.Csv);
         }
     }
 }

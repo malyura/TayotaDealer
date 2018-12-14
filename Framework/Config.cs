@@ -15,6 +15,8 @@ namespace Framework
 
         public static string Password => GetConfiguration("password");
 
+        public static string DownloadsDir => GetConfiguration("downloads_dir"); 
+
         public static BrowserTypes Browser => Enum.TryParse(GetConfiguration("browser"), true, out BrowserTypes val) ? val : BrowserTypes.Unknown;
 
         private static string GetConfiguration(string value) => ConfigurationManager.AppSettings[value];

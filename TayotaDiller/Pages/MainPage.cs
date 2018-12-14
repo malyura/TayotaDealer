@@ -3,7 +3,7 @@ using OpenQA.Selenium;
 using Framework.Elements;
 using TayotaDiller.Menus;
 
-namespace TayotaDiller.Pages
+namespace TayotaDealer.Pages
 {
     public class MainPage : BasePage
     {

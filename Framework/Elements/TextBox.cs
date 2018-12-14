@@ -11,7 +11,7 @@ namespace Framework.Elements
         public void Type(string text)
         {
             WaitElementIsVisible();
-            logger.Info(string.Format("Typing '{0}'", text));
+            Logger.Info($"Typing '{text}'");
             GetElement().SendKeys(text);
         }
     }

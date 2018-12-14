@@ -2,13 +2,13 @@
 using Framework.Elements;
 using Framework.Utils;
 using OpenQA.Selenium;
-using TayotaDiller.Enums;
+using TayotaDealer.Enums;
 
-namespace TayotaDiller.Pages
+namespace TayotaDealer.Pages
 {
     public class ReportsPage : BasePage
     {
-        private static By _reportsPageLoc = By.XPath("//div[normalize-space(@data-module-name)='reports']");
+        private static readonly By _reportsPageLoc = By.XPath("//div[normalize-space(@data-module-name)='reports']");
         private readonly string _reportNameLoc = "//table[normalize-space(@class)='table']//a[normalize-space(.)='{0}']";
 
         public ReportsPage() : base(new Label(_reportsPageLoc, "Reports page"))

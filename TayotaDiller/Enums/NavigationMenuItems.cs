@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace TayotaDiller.Enums
+namespace TayotaDealer.Enums
 {
     public enum NavigationMenuItems
     {

@@ -1,4 +1,4 @@
-﻿namespace TayotaDiller.Enums
+﻿namespace TayotaDealer.Enums
 {
     public enum VinWalkTableColumns
     {
@@ -15,6 +15,15 @@
         Content,
         CarFax,
         Structual,
-        TimesRun
+        TimesRun,
+        SalesChanel,
+        Misk,
+        Manual,
+        Floor,
+        Status,
+        SalePrice,
+        SoldDate,
+        PricingRule,
+        DatePriced
     }
 }

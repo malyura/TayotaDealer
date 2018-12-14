@@ -7,23 +7,23 @@ namespace Framework.Elements
 {
     public class BaseElement
     {
-        protected IWebDriver driver = Browser.GetDriver();
-        protected Logger logger = LogManager.GetCurrentClassLogger();
-        protected WebDriverWait wait;
-        protected By locator;
-        protected string description;
+        protected IWebDriver Driver = Browser.GetDriver();
+        protected Logger Logger = LogManager.GetCurrentClassLogger();
+        protected WebDriverWait Wait;
+        protected By Locator;
+        protected string Description;
 
         protected BaseElement(By locator, string description)
         {
-            wait = new WebDriverWait(driver, TimeSpan.FromSeconds(Config.ExplicitlyWait));
-            this.locator = locator;
-            this.description = description;
+            Wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(Config.ExplicitlyWait));
+            this.Locator = locator;
+            this.Description = description;
         }
 
         public void Click()
         {
             WaitElementIsVisible();
-            logger.Info("Click " + description);
+            Logger.Info("Click " + Description);
             GetElement().Click();
         }
 
@@ -33,9 +33,9 @@ namespace Framework.Elements
             return GetElement().GetAttribute(attributeName);
         }
 
-        public By GetLocator() => locator;
+        public By GetLocator() => Locator;
 
-        public IWebElement GetElement() => driver.FindElement(locator);
+        public IWebElement GetElement() => Driver.FindElement(Locator);
        
         public string GetText()
         {
@@ -43,11 +43,11 @@ namespace Framework.Elements
             return GetElement().Text;
         }
 
-        public bool IsPresent() => driver.FindElements(locator).Count > 0;
+        public bool IsPresent() => Driver.FindElements(Locator).Count > 0;
 
         public void WaitElementIsVisible()
         {
-            wait.Until(ExpectedConditions.ElementIsVisible(locator));
+            Wait.Until(ExpectedConditions.ElementIsVisible(Locator));
         }
     }
 }

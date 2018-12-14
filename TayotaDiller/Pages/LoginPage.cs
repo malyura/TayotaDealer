@@ -2,7 +2,7 @@
 using Framework.Elements;
 using OpenQA.Selenium;
 
-namespace TayotaDiller.Pages
+namespace TayotaDealer.Pages
 {
     public class LoginPage : BasePage
     {

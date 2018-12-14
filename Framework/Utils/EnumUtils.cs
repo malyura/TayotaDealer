@@ -3,7 +3,7 @@ using System.ComponentModel;
 
 namespace Framework.Utils
 {
-    public static class EnumUtil
+    public static class EnumUtils
     {
         public static string GetEnumDescription(this Enum value)
         {

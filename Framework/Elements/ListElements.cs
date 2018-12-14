@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Framework.Utils;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 
@@ -14,7 +15,7 @@ namespace Framework.Elements
         public IList<IWebElement> GetElements()
         {
             WaitListElementsIsVisible();
-            return driver.FindElements(locator);
+            return Driver.FindElements(Locator);
         }
 
         public List<string> GetTextFromListElements()
@@ -24,6 +25,18 @@ namespace Framework.Elements
             {
                 WaitElementIsVisible();
                 lstText.Add(el.Text.Trim());
+            }
+
+            return lstText;
+        }
+
+        public List<string> GetTextFromListElements(string pattern)
+        {
+            var lstText = new List<string>();
+            foreach (var el in GetElements())
+            {
+                WaitElementIsVisible();
+                lstText.Add(StringUtils.GetMatch(el.Text.Trim(), pattern));
             }
 
             return lstText;
@@ -42,7 +55,7 @@ namespace Framework.Elements
 
         private void WaitListElementsIsVisible()
         {
-            wait.Until(ExpectedConditions.VisibilityOfAllElementsLocatedBy(locator));
+            Wait.Until(ExpectedConditions.VisibilityOfAllElementsLocatedBy(Locator));
         }
     }
 }
