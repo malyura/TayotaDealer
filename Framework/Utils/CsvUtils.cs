@@ -22,7 +22,7 @@ namespace Framework.Utils
                 while (csv.Read())
                 {
                     var lst = new List<string>();
-                    for (int i = 0; csv.TryGetField(i, out string value); i++)
+                    for (var i = 0; csv.TryGetField(i, out string value); i++)
                     {
                         lst.Add(value);
                     }
@@ -30,6 +30,7 @@ namespace Framework.Utils
                     k++;
                 }
             }
+
             return map;
         }
     }

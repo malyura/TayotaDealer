@@ -1,10 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Framework.Elements;
 using OpenQA.Selenium;
 using Framework;
+using Framework.Enums;
 using Framework.Utils;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TayotaDealer.Enums;
 using TayotaDealer.Models;
 
@@ -12,17 +15,15 @@ namespace TayotaDealer.Pages
 {
     public class VinWalkReportPage : BasePage
     {
-        private const string TableItemsRegex = @"[^(\/)]*";
         private static readonly By _vinWalkReportPageLoc =
-            By.XPath(string.Format("//*[normalize-space(@class)='location-table-text' and normalize-space(.)='{0}']", ReportNames.VinWalk.GetEnumDescription()));
+            By.XPath($"//*[normalize-space(@class)='location-table-text' and normalize-space(.)='{ReportNames.VinWalk.GetEnumDescription()}']");
         private readonly string _vinWalkReportTableColumnLoc = "//th[@id='visualization-Tabular-th-{0}']";
         private readonly string _activeSortVinWalkTableColumnAscendingLoc = 
             "//th[@id='visualization-Tabular-th-{0}' and contains(@class, 'active') and contains(@class, 'asc')]";
         private readonly string _vinWalkTableItemsLoc = "//div[@id='visualization-Tabular']//tbody//td[{0}]";
+        private readonly string _exportBtnLocator = "export-{0}";
         private readonly Button _updateResultsBtn = new Button(By.XPath("//button[contains(@class, 'submit-button') and not (@disabled)]"),
             "Update results");
-        private readonly Button _csvExportBtn = new Button(By.Id("export-Csv"), "Csv export");
-        private readonly Button _xlsExportBtn = new Button(By.Id("export-Excel"), "Excel export");
 
         public VinWalkReportPage() : base(new Label(_vinWalkReportPageLoc, "VIN walk report page"))
         {
@@ -31,7 +32,7 @@ namespace TayotaDealer.Pages
         public bool IsActiveSortVinWalkTableColumnAscending(VinWalkTableColumns column)
         {
             return new Label(By.XPath(string.Format(_activeSortVinWalkTableColumnAscendingLoc, column)),
-               string.Format("Active sort ascending for {0} column", column.ToString())).IsPresent();
+                $"Active sort ascending for {column.ToString()} column").IsPresent();
         }
 
         public void ClickUpdateResultsBtn()
@@ -51,7 +52,7 @@ namespace TayotaDealer.Pages
             {
                 if (vinWalkReports[i].Year > vinWalkReports[i + 1].Year)
                 {
-                    logger.Warn(string.Format("VIN Walk report item with VIN value {0} incorrectly sorted", vinWalkReports[i].VIN));
+                    Logger.Warn($"VIN Walk report item with VIN value {vinWalkReports[i].VIN} incorrectly sorted");
                     return false;
                 }
             }
@@ -59,39 +60,54 @@ namespace TayotaDealer.Pages
             return true;
         }
 
-        public void DownloadVinWalkReportFile(FileTypes fileType)
+        public string DownloadVinWalkReportFile(FileTypes fileType)
         {
             FileUtils.DeleteDirectoryIfExists(Config.DownloadsDir);
             FileUtils.CreateDirectoryIfNotExists(Config.DownloadsDir);
-            _csvExportBtn.Click();
-            wait.Until(result => FileUtils.IsOverDownloadFile(Config.DownloadsDir, Directory.GetFiles(Config.DownloadsDir).FirstOrDefault(),
-                EnumUtils.GetEnumDescription(fileType)));
+            new Button(By.Id(string.Format(_exportBtnLocator, fileType.ToString())), $"{fileType} export").Click();
+            Wait.Until(result => FileUtils.IsOverDownloadFile(Config.DownloadsDir, Directory.GetFiles(Config.DownloadsDir).FirstOrDefault(),
+                fileType.GetEnumDescription()));
+            return Directory.GetFiles(Config.DownloadsDir).First();
         }
 
-        //public bool IsExistsFileWithType(FileTypes fileType)
-        //{
-        //    try
-        //    {
-        //        wait.Until(result => FileUtils.IsExistsFileWithExtension(Directory.GetFiles(Config.DownloadsDir).FirstOrDefault(),
-        //            EnumUtils.GetEnumDescription(fileType)));
-    
-        //    }
-        //    catch (WebDriverTimeoutException)
-        //    {
-        //        return false;
-        //    }
-
-        //    return true;
-        //}
-
-        public void CheckReportFile(FileTypes type)
+        public void CheckExportToFile(string fileName, FileTypes type)
         {
-            string dfds = StringUtils.GetMatch("dsfds/hjgj", TableItemsRegex);
+            Assert.IsTrue(File.Exists(fileName), $"File {fileName} doesn't exist");
             var itemsFromPageTable = GetVinWalkReportItems();
-            
-
+            Assert.IsNotNull(itemsFromPageTable, "Report from VIN Walk report table has value null");
             var itemsFromFile = GetVinWalkReportItemsFromFile(type);
-            string ff = "";
+            Assert.IsNotNull(itemsFromFile, $"Report from {type} file with VIN Walk report has value null");
+            for (var i = 0; i < itemsFromPageTable.Count; i++)
+            {
+                CheckEqualVinWalkReportItems(itemsFromPageTable[i].VIN, itemsFromFile[i].VIN, type);
+                CheckEqualVinWalkReportItems(itemsFromPageTable[i].Year.ToString(), itemsFromFile[i].Year.ToString(), type);
+                CheckEqualVinWalkReportItems(itemsFromPageTable[i].Make, itemsFromFile[i].Make, type);
+                CheckEqualVinWalkReportItems(itemsFromPageTable[i].Model, itemsFromFile[i].Model, type);
+                CheckEqualVinWalkReportItems(itemsFromPageTable[i].Trim, itemsFromFile[i].Trim, type);
+                CheckEqualVinWalkReportItems(itemsFromPageTable[i].MMR, itemsFromFile[i].MMR, type);
+                CheckEqualVinWalkReportItems(itemsFromPageTable[i].Mileage, itemsFromFile[i].Mileage, type);
+                CheckEqualVinWalkReportItems(itemsFromPageTable[i].Location, itemsFromFile[i].Location, type);
+                CheckEqualVinWalkReportItems(itemsFromPageTable[i].Condition, itemsFromFile[i].Condition, type);
+                CheckEqualVinWalkReportItems(itemsFromPageTable[i].Color, itemsFromFile[i].Color, type);
+                CheckEqualVinWalkReportItems(itemsFromPageTable[i].Content, itemsFromFile[i].Content, type);
+                CheckEqualVinWalkReportItems(itemsFromPageTable[i].CarFax, itemsFromFile[i].CarFax, type);
+                CheckEqualVinWalkReportItems(itemsFromPageTable[i].Structural, itemsFromFile[i].Structural, type);
+                CheckEqualVinWalkReportItems(itemsFromPageTable[i].TimesRun, itemsFromFile[i].TimesRun, type);
+                CheckEqualVinWalkReportItems(itemsFromPageTable[i].SalesChanel, itemsFromFile[i].SalesChanel, type);
+                CheckEqualVinWalkReportItems(itemsFromPageTable[i].Misc, itemsFromFile[i].Misc, type);
+                CheckEqualVinWalkReportItems(itemsFromPageTable[i].Manual, itemsFromFile[i].Manual, type);
+                CheckEqualVinWalkReportItems(itemsFromPageTable[i].Floor, itemsFromFile[i].Floor, type);
+                CheckEqualVinWalkReportItems(itemsFromPageTable[i].Status, itemsFromFile[i].Status, type);
+                CheckEqualVinWalkReportItems(itemsFromPageTable[i].SalePrice, itemsFromFile[i].SalePrice, type);
+                CheckEqualVinWalkReportItems(itemsFromPageTable[i].SoldDate, itemsFromFile[i].SoldDate, type);
+                CheckEqualVinWalkReportItems(itemsFromPageTable[i].PricingRule, itemsFromFile[i].PricingRule, type);
+                CheckEqualVinWalkReportItems(itemsFromPageTable[i].DatePriced, itemsFromFile[i].DatePriced, type); 
+            }
+        }
+
+        private static void CheckEqualVinWalkReportItems(string itemFromTable, string itemFromFile, FileTypes type)
+        {
+            SoftAssert.AreEqual(itemFromTable, itemFromFile, $"Items from VIN Walk report table and VIN Walk report file {type} aren't equal");
         }
 
         private Label GetVinWalkReportTableColumnLbl(VinWalkTableColumns column)
@@ -101,9 +117,9 @@ namespace TayotaDealer.Pages
 
         private List<string> GetTextFromVinWalkTableItems(VinWalkTableColumns column)
         {
-            var reportElements = new ListElements(By.XPath(string.Format(_vinWalkTableItemsLoc, (int) column)), string.Format("{0} column items", column));
+            var reportElements = new ListElements(By.XPath(string.Format(_vinWalkTableItemsLoc, (int) column)), $"{column} column items");
 
-            return reportElements.GetTextFromListElements(TableItemsRegex);
+            return reportElements.GetTextFromListElements();
         }
 
         private List<VinWalkReport> GetVinWalkReportItems()
@@ -140,34 +156,50 @@ namespace TayotaDealer.Pages
                 Model = modelValues[i],
                 Trim = trimValues[i],
                 MMR = mmrValues[i],
-                Mileage = mileageValues[i],
-                Location = locationValues[i],
-                Condition = conditionValues[i],
-                Color = colorValues[i],
-                Content = contentValues[i],
-                CarFax = carFaxValues[i],
-                Structural = structuralValues[i],
-                TimesRun = timesRunValues[i],
-                SalesChanel = salesChanelValues[i],
+                Mileage = mileageValues[i].Split('\r').First(),
+                Location = locationValues[i].Split('\r').First(),
+                Condition = conditionValues[i].Split('\r').First(),
+                Color = colorValues[i].Split('\r').First(),
+                Content = contentValues[i].Split('\r').First(),
+                CarFax = carFaxValues[i].Split('\r').First(),
+                Structural = structuralValues[i].Split('\r').First(),
+                TimesRun = timesRunValues[i].Split('\r').First(),
+                SalesChanel = salesChanelValues[i].Split('\r').First(),
                 Misc = miscValues[i],
                 Manual = manualValues[i],
                 Floor = floorValues[i],
                 Status = statusValues[i],
                 SalePrice = salePriceValues[i],
                 SoldDate = soldDateValues[i],
-                PricingRule = pricingRuleValues[i],
+                PricingRule = pricingRuleValues[i].Replace("\r\n", "; "),
                 DatePriced = datePricedValues[i]
 
             }).ToList();
+
             return reportItems;
         }
 
-        private List<VinWalkReport> GetVinWalkReportItemsFromFile(FileTypes type)
+        private static List<VinWalkReport> GetVinWalkReportItemsFromFile(FileTypes type)
         {
             var filePath = Directory.GetFiles(Config.DownloadsDir).First();
-            var map = CsvUtils.ReadCsv(filePath, true);
+            Dictionary<int, List<string>> map;
+            switch (type)
+            {
+                case FileTypes.Csv:
+                {
+                    map = CsvUtils.ReadCsv(filePath, true);
+                    break;
+                }
+                case FileTypes.Excel:
+                {
+                    map = ExcelUtils.ReadExcel(filePath, true);
+                    break;
+                }
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(type), type, null);
+            }
             var reportItems = new List<VinWalkReport>();
-           
+
             foreach (var lst in map.Values)
             {
                 var report = new VinWalkReport

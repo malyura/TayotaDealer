@@ -1,7 +1,7 @@
 ﻿using Framework;
 using OpenQA.Selenium;
 using Framework.Elements;
-using TayotaDiller.Menus;
+using TayotaDealer.Menus;
 
 namespace TayotaDealer.Pages
 {

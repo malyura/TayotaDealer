@@ -7,24 +7,24 @@ namespace Framework
 {
     public class BaseTest
     {
-        protected IWebDriver driver = Browser.GetDriver();
-        protected Logger logger = LogManager.GetCurrentClassLogger();
+        protected IWebDriver Driver = Browser.GetDriver();
+        protected Logger Logger = LogManager.GetCurrentClassLogger();
 
         [TestInitialize]
         public void TestInitialize()
         {
-            logger.Debug("Add implicitly wait");
-            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(Config.ImplicitlyWait);
-            logger.Debug("Maximaze window browser");
-            driver.Manage().Window.Maximize();
-            logger.Debug("Navigate to URL");
+            Logger.Debug("Add implicitly wait");
+            Driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(Config.ImplicitlyWait);
+            Logger.Debug("Maximaze window browser");
+            Driver.Manage().Window.Maximize();
+            Logger.Debug("Navigate to URL");
             Browser.Navigate(Config.Url);
         }
 
         [TestCleanup]
         public void TestCleanup()
         {
-            logger.Debug("Quit browser");
+            Logger.Debug("Quit browser");
             Browser.Quit();
         }
     }

@@ -4,7 +4,7 @@ using Framework.Utils;
 using OpenQA.Selenium;
 using TayotaDealer.Enums;
 
-namespace TayotaDiller.Menus
+namespace TayotaDealer.Menus
 {
     public class NavigationMenu : BasePage
     {

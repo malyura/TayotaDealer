@@ -30,18 +30,6 @@ namespace Framework.Elements
             return lstText;
         }
 
-        public List<string> GetTextFromListElements(string pattern)
-        {
-            var lstText = new List<string>();
-            foreach (var el in GetElements())
-            {
-                WaitElementIsVisible();
-                lstText.Add(StringUtils.GetMatch(el.Text.Trim(), pattern));
-            }
-
-            return lstText;
-        }
-
         public IWebElement GetElementFromList(int index)
         {
             return GetElements()[index];

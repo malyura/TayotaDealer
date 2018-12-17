@@ -1,14 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Framework.Enums;
 using OpenQA.Selenium.Support.UI;
 
 namespace Framework.Utils
 {
     public class FileUtils
     {
-        private static readonly WebDriverWait wait = new WebDriverWait(Browser.GetDriver(), TimeSpan.FromSeconds(Config.ExplicitlyWait));
+        private static readonly WebDriverWait _wait = new WebDriverWait(Browser.GetDriver(), TimeSpan.FromSeconds(Config.ExplicitlyWait));
 
         public static void DeleteFileIfExists(string pathFile)
         {
@@ -16,7 +16,7 @@ namespace Framework.Utils
             if (file.Exists)
             {
                 file.Delete();
-                wait.Until(result => !file.Exists);
+                _wait.Until(result => !file.Exists);
             }
         }
 
@@ -25,7 +25,7 @@ namespace Framework.Utils
             if (!Directory.Exists(path))
             {
                 Directory.CreateDirectory(path);
-                wait.Until(result => Directory.Exists(path));
+                _wait.Until(result => Directory.Exists(path));
             }
         }
 
@@ -34,19 +34,34 @@ namespace Framework.Utils
             if (Directory.Exists(path))
             {
                 Directory.Delete(path, true);
-                wait.Until(result => !Directory.Exists(path));
+                _wait.Until(result => !Directory.Exists(path));
             }
         }
 
         public static bool IsExistsFileWithExtension(string pathFile, string extension)
         {
-            return pathFile == null ? false : Path.GetExtension(pathFile).Equals(extension);
+            return pathFile != null && Path.GetExtension(pathFile).Equals(extension);
         }
 
         public static bool IsOverDownloadFile(string downloadDir, string pathFile, string extension)
         {
-            return !Directory.EnumerateFiles(downloadDir, "*.*", SearchOption.TopDirectoryOnly).Any(s => s.EndsWith(".crdownload") || s.EndsWith(".part"))
-                && IsExistsFileWithExtension(pathFile, extension);
+            string downloadExtension = null;
+;           switch (Config.Browser)
+            {
+                case BrowserTypes.Chrome:
+                    downloadExtension = FileTypes.ChromeDownload.GetEnumDescription();
+                    break;
+                case BrowserTypes.Firefox:
+                    downloadExtension = FileTypes.FirefoxDownload.GetEnumDescription();
+                    break;
+                case BrowserTypes.Unknown:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+            return !Directory.EnumerateFiles(downloadDir, "*.*", SearchOption.TopDirectoryOnly).
+                       Any(s => s.EndsWith(downloadExtension ?? throw new InvalidOperationException()))
+                   && IsExistsFileWithExtension(pathFile, extension);
         }
     }
 }
