@@ -122,7 +122,7 @@ namespace ToyotaDealer.Pages
 
         private Element GetVinWalkReportTableColumnElement(VinWalkTableColumns column)
         {
-            return new Element(By.XPath(string.Format(_vinWalkReportTableColumnLocator, column)), column.ToString());
+            return new Element(By.XPath(string.Format(_vinWalkReportTableColumnLocator, column.GetEnumDescription())), column.ToString());
         }
 
         private List<string> GetTextFromVinWalkTableItems(VinWalkTableColumns column)
