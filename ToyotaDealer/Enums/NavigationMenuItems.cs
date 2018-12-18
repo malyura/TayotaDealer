@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace TayotaDealer.Enums
+namespace ToyotaDealer.Enums
 {
     public enum NavigationMenuItems
     {

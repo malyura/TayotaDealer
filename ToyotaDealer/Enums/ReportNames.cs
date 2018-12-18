@@ -1,16 +1,16 @@
 ﻿using System.ComponentModel;
 
-namespace TayotaDealer.Enums
+namespace ToyotaDealer.Enums
 {
     public enum ReportNames
     {
         [Description("Performance Reporting By Time6")]
-        PerfomanceReportingByTime,
+        PerformanceReportingByTime,
         [Description("VIN Detail")]
         VinDetail,
         [Description("VIN Walk")]
         VinWalk,
         [Description("Performance Reporting By Location")]
-        PerfomanceReportingByLocation
+        PerformanceReportingByLocation
     }
 }

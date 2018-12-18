@@ -1,23 +1,23 @@
-﻿namespace TayotaDealer.Enums
+﻿namespace ToyotaDealer.Enums
 {
     public enum VinWalkTableColumns
     {
-        VIN = 1,
+        Vin = 1,
         Year,
         Make,
         Model,
         Trim,
-        MMR,
+        Mmr,
         Mileage,
         Location,
         Condition,
         Color,
         Content,
         CarFax,
-        Structual,
+        Structural,
         TimesRun,
         SalesChanel,
-        Misk,
+        Misc,
         Manual,
         Floor,
         Status,

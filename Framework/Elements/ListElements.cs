@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Framework.Utils;
 using OpenQA.Selenium;
-using OpenQA.Selenium.Support.UI;
 
 namespace Framework.Elements
 {
@@ -15,6 +13,7 @@ namespace Framework.Elements
         public IList<IWebElement> GetElements()
         {
             WaitListElementsIsVisible();
+
             return Driver.FindElements(Locator);
         }
 
@@ -38,12 +37,13 @@ namespace Framework.Elements
         public int GetRandomIndexListElements()
         {
             WaitListElementsIsVisible();
+
             return new Random().Next(0, GetElements().Count);
         }
 
         private void WaitListElementsIsVisible()
         {
-            Wait.Until(ExpectedConditions.VisibilityOfAllElementsLocatedBy(Locator));
+            Wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.VisibilityOfAllElementsLocatedBy(Locator));
         }
     }
 }

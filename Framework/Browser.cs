@@ -47,7 +47,7 @@ namespace Framework
         {
             if (_driver != null)
             {
-                //_driver.Quit();
+                _driver.Quit();
                 _driver = null;
             }
         }

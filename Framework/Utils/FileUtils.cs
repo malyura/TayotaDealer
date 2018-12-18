@@ -46,7 +46,7 @@ namespace Framework.Utils
         public static bool IsOverDownloadFile(string downloadDir, string pathFile, string extension)
         {
             string downloadExtension = null;
-;           switch (Config.Browser)
+            switch (Config.Browser)
             {
                 case BrowserTypes.Chrome:
                     downloadExtension = FileTypes.ChromeDownload.GetEnumDescription();
@@ -59,6 +59,7 @@ namespace Framework.Utils
                 default:
                     throw new ArgumentOutOfRangeException();
             }
+
             return !Directory.EnumerateFiles(downloadDir, "*.*", SearchOption.TopDirectoryOnly).
                        Any(s => s.EndsWith(downloadExtension ?? throw new InvalidOperationException()))
                    && IsExistsFileWithExtension(pathFile, extension);

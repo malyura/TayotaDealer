@@ -16,8 +16,8 @@ namespace Framework.Elements
         protected BaseElement(By locator, string description)
         {
             Wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(Config.ExplicitlyWait));
-            this.Locator = locator;
-            this.Description = description;
+            Locator = locator;
+            Description = description;
         }
 
         public void Click()
@@ -30,6 +30,7 @@ namespace Framework.Elements
         public string GetAttribute(string attributeName)
         {
             WaitElementIsVisible();
+
             return GetElement().GetAttribute(attributeName);
         }
 
@@ -40,6 +41,7 @@ namespace Framework.Elements
         public string GetText()
         {
             WaitElementIsVisible();
+
             return GetElement().Text;
         }
 
@@ -47,7 +49,7 @@ namespace Framework.Elements
 
         public void WaitElementIsVisible()
         {
-            Wait.Until(ExpectedConditions.ElementIsVisible(Locator));
+            Wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(Locator));
         }
     }
 }

@@ -1,10 +1,10 @@
 ﻿using Framework;
 using Framework.Enums;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using TayotaDealer.Enums;
-using TayotaDealer.Pages;
+using ToyotaDealer.Enums;
+using ToyotaDealer.Pages;
 
-namespace TayotaDealer
+namespace ToyotaDealer
 {
     [TestClass]
     public class VinWalkReportTest : BaseTest
@@ -32,9 +32,9 @@ namespace TayotaDealer
         {
             Logger.Info("Step_4 Check sorting by Year on Vin Walk Report page");
             var vinWalkReportPage = new VinWalkReportPage();
-            vinWalkReportPage.ClickUpdateResultsBtn();
-            vinWalkReportPage.ClickVinWalkReportTableColumnLbl(VinWalkTableColumns.Year);
-            Assert.IsTrue(vinWalkReportPage.IsActiveSortVinWalkTableColumnAscending(VinWalkTableColumns.VIN),
+            vinWalkReportPage.ClickUpdateResultsButton();
+            vinWalkReportPage.ClickVinWalkReportTableColumnElement(VinWalkTableColumns.Year);
+            Assert.IsTrue(vinWalkReportPage.IsActiveSortVinWalkTableColumnAscending(VinWalkTableColumns.Year),
                 "Sort ascending for column 'Year' isn't active");
             Assert.IsTrue(vinWalkReportPage.IsCorrectSortAscending(VinWalkTableColumns.Year),
                 "Sort ascending for column 'Year' isn't correct");
@@ -45,9 +45,9 @@ namespace TayotaDealer
         {
             Logger.Info("Step_4 Check export to Csv on Vin Walk Report page");
             var vinWalkReportPage = new VinWalkReportPage();
-            vinWalkReportPage.ClickUpdateResultsBtn();
-            var fileName = vinWalkReportPage.DownloadVinWalkReportFile(FileTypes.Excel);
-            vinWalkReportPage.CheckExportToFile(fileName, FileTypes.Excel);
+            vinWalkReportPage.ClickUpdateResultsButton();
+            var fileName = vinWalkReportPage.DownloadVinWalkReportFile(FileTypes.Csv);
+            vinWalkReportPage.CheckExportToFile(fileName, FileTypes.Csv);
         }
     }
 }

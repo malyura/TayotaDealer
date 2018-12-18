@@ -27,6 +27,7 @@ namespace Framework.Elements
         public string GetTextFromSelectedItem()
         {
             var select = new SelectElement(GetElement());
+
             return select.SelectedOption.Text;
         }
     }

@@ -8,7 +8,7 @@ namespace Framework.Utils
 {
     public class CsvUtils
     {
-        private static readonly WebDriverWait wait = new WebDriverWait(Browser.GetDriver(), TimeSpan.FromSeconds(Config.ExplicitlyWait));
+        private static readonly WebDriverWait _wait = new WebDriverWait(Browser.GetDriver(), TimeSpan.FromSeconds(Config.ExplicitlyWait));
 
         public static Dictionary<int, List<string>> ReadCsv(string filePath, bool hasHeaderRecord)
         {
@@ -18,7 +18,7 @@ namespace Framework.Utils
                 var csv = new CsvReader(fileReader);
                 csv.Configuration.HasHeaderRecord = hasHeaderRecord;
                 var k = 0;
-                wait.Until(result => csv.Read());
+                _wait.Until(result => csv.Read());
                 while (csv.Read())
                 {
                     var lst = new List<string>();
