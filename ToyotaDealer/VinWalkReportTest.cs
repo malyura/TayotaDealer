@@ -48,6 +48,10 @@ namespace ToyotaDealer
             vinWalkReportPage.ClickUpdateResultsButton();
             var fileName = vinWalkReportPage.DownloadVinWalkReportFile(FileTypes.Csv);
             vinWalkReportPage.CheckExportToFile(fileName, FileTypes.Csv);
+
+            Logger.Info("Step_5 Check export to Excel on Vin Walk Report page");
+            fileName = vinWalkReportPage.DownloadVinWalkReportFile(FileTypes.Excel);
+            vinWalkReportPage.CheckExportToFile(fileName, FileTypes.Excel);
         }
     }
 }
