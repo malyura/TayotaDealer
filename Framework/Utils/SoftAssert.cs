@@ -18,5 +18,17 @@ namespace Framework.Utils
                 _logger.Warn(message + "\n" + exception.Message);
             }
         }
+
+        public static void IsTrue(bool condition, string message)
+        {
+            try
+            {
+                Assert.IsTrue(condition);
+            }
+            catch (UnitTestAssertException exception)
+            {
+                _logger.Warn(message + "\n" + exception.Message);
+            }
+        }
     }
 }

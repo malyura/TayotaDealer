@@ -49,5 +49,21 @@ namespace ToyotaDealer
             var fileName = vinWalkReportPage.DownloadVinWalkReportFile(FileTypes.Csv);
             vinWalkReportPage.CheckExportToFile(fileName, FileTypes.Csv);
         }
+
+        [TestMethod]
+        public void LocksTest()
+        {
+            const int columnsNumberToCheck = 3;
+            Logger.Info("Step_4 Check locks on Vin Walk Report page");
+            var vinWalkReportPage = new VinWalkReportPage();
+            vinWalkReportPage.ClickUpdateResultsButton();
+            var randomVinWalkReportColumns = vinWalkReportPage.GetRandomVinWalkReportTableColumns(columnsNumberToCheck);
+            vinWalkReportPage.ClickLockColumnsElements(randomVinWalkReportColumns);
+            var columnsAreLocked = vinWalkReportPage.AreColumnsHaveLockStatus(randomVinWalkReportColumns, true);
+            vinWalkReportPage.ClickUnlockColumnsElements(randomVinWalkReportColumns);
+            var columnsAreUnlocked = vinWalkReportPage.AreColumnsHaveLockStatus(randomVinWalkReportColumns, false);
+            Assert.IsTrue(columnsAreLocked, "Some columns of table weren't locked (see log)");
+            Assert.IsTrue(columnsAreUnlocked, "Some columns of table weren't unlocked (see log)");
+        }
     }
 }

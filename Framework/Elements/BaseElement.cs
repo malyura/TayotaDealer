@@ -1,6 +1,7 @@
 ﻿using System;
 using NLog;
 using OpenQA.Selenium;
+using OpenQA.Selenium.Interactions;
 using OpenQA.Selenium.Support.UI;
 
 namespace Framework.Elements
@@ -51,5 +52,26 @@ namespace Framework.Elements
         {
             Wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(Locator));
         }
+
+        public void WaitElementIsExists()
+        {
+            Wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementExists(Locator));
+        }
+
+        public void MoveToElement()
+        {
+            WaitElementIsExists();
+            Logger.Info("Move mouse");
+            new Actions(Browser.GetDriver()).MoveToElement(GetElement()).Perform();
+        }
+
+        public void ClickJs()
+        {
+            WaitElementIsExists();
+            Logger.Info("Click " + Description);
+            var executor = (IJavaScriptExecutor) Driver;
+            executor.ExecuteScript("arguments[0].click();", GetElement());
+        }
+
     }
 }
