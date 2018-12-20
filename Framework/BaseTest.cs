@@ -5,10 +5,13 @@ using OpenQA.Selenium;
 
 namespace Framework
 {
+    [TestClass]
     public class BaseTest
     {
         protected IWebDriver Driver = Browser.GetDriver();
         protected Logger Logger = LogManager.GetCurrentClassLogger();
+
+        public TestContext TestContext { get; set; }
 
         [TestInitialize]
         public void TestInitialize()
@@ -24,6 +27,10 @@ namespace Framework
         [TestCleanup]
         public void TestCleanup()
         {
+            if (TestContext.CurrentTestOutcome != UnitTestOutcome.Passed)
+            {
+                Browser.TakeScreenshot();
+            }
             Logger.Debug("Quit browser");
             Browser.Quit();
         }

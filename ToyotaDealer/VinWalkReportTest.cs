@@ -58,7 +58,7 @@ namespace ToyotaDealer
         public void LocksTest()
         {
             const int columnsNumberToCheck = 3;
-            Logger.Info("Step_4 Check locks on Vin Walk Report page");
+            Logger.Info("Step_4 Check table column lock on Vin Walk Report page");
             var vinWalkReportPage = new VinWalkReportPage();
             vinWalkReportPage.ClickUpdateResultsButton();
             var randomVinWalkReportColumns = vinWalkReportPage.GetRandomVinWalkReportTableColumns(columnsNumberToCheck);

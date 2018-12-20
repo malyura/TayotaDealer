@@ -11,7 +11,7 @@ namespace Framework.Elements
         public void Type(string text)
         {
             WaitElementIsVisible();
-            Logger.Info($"Typing '{text}'");
+            Logger.Info($"Typing '{text}' in textbox '{Description}'");
             GetElement().SendKeys(text);
         }
     }

@@ -24,7 +24,7 @@ namespace Framework.Elements
         public void Click()
         {
             WaitElementIsVisible();
-            Logger.Info("Click " + Description);
+            Logger.Info("Click element " + $"'{Description}'");
             GetElement().Click();
         }
 
@@ -61,17 +61,16 @@ namespace Framework.Elements
         public void MoveToElement()
         {
             WaitElementIsExists();
-            Logger.Info("Move mouse");
+            Logger.Info("Move mouse to element " + $"'{Description}'");
             new Actions(Browser.GetDriver()).MoveToElement(GetElement()).Perform();
         }
 
         public void ClickJs()
         {
             WaitElementIsExists();
-            Logger.Info("Click " + Description);
+            Logger.Info("Click element " + $"'{Description}'");
             var executor = (IJavaScriptExecutor) Driver;
             executor.ExecuteScript("arguments[0].click();", GetElement());
         }
-
     }
 }

@@ -5,7 +5,7 @@ namespace ToyotaDealer.Enums
     public enum ReportNames
     {
         [Description("Performance Reporting By Time6")]
-        PerformanceReportingByTime,
+        PerformanceReportingByTime = 0,
         [Description("VIN Detail")]
         VinDetail,
         [Description("VIN Walk")]

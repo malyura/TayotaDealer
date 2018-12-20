@@ -2,6 +2,9 @@
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Firefox;
+using System.IO;
+using Framework.Enums;
+using Framework.Utils;
 
 namespace Framework
 {
@@ -47,7 +50,7 @@ namespace Framework
         {
             if (_driver != null)
             {
-                //_driver.Quit();
+                _driver.Quit();
                 _driver = null;
             }
         }
@@ -55,6 +58,15 @@ namespace Framework
         public static void Navigate(string url)
         {
             _driver.Navigate().GoToUrl(url);
+        }
+
+        public static void TakeScreenshot()
+        {
+            var screenshotDriver = _driver as ITakesScreenshot;
+            var screenshot = screenshotDriver?.GetScreenshot();
+            FileUtils.CreateDirectoryIfNotExists(Config.ScreenshotDir);
+            screenshot?.SaveAsFile(Path.Combine(Config.ScreenshotDir,
+                DateTime.Now.ToString("yyyyMMddHHmmss") + FileTypes.PngImage.GetEnumDescription()), ScreenshotImageFormat.Png);
         }
     }
 }

@@ -12,14 +12,14 @@ namespace Framework.Elements
         public void SelectItemByIndex(int index)
         {
             var indXpath = index + 1;
-            Logger.Info("Select " + Description + " index " + indXpath);
+            Logger.Info("Select combo box" + $"'{Description}' index {indXpath}");
             var select = new SelectElement(GetElement());
             select.SelectByIndex(indXpath);
         }
 
         public void SelectItemByText(string text)
         {
-            Logger.Info("Select " + Description + " item " + text);
+            Logger.Info("Select " + $"'{Description}' item {text}");
             var select = new SelectElement(GetElement());
             select.SelectByText(text);
         }

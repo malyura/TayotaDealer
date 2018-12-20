@@ -11,6 +11,8 @@ namespace Framework.Enums
         [Description(".crdownload")]
         ChromeDownload,
         [Description(".part")]
-        FirefoxDownload
+        FirefoxDownload,
+        [Description(".png")]
+        PngImage
     }
 }
