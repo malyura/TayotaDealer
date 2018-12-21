@@ -18,7 +18,7 @@ namespace Framework
         {
             Logger.Debug("Add implicitly wait");
             Driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(Config.ImplicitlyWait);
-            Logger.Debug("Maximaze window browser");
+            Logger.Debug("Maximize window browser");
             Driver.Manage().Window.Maximize();
             Logger.Debug("Navigate to URL");
             Browser.Navigate(Config.Url);
@@ -31,6 +31,7 @@ namespace Framework
             {
                 Browser.TakeScreenshot();
             }
+
             Logger.Debug("Quit browser");
             Browser.Quit();
         }

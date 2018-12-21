@@ -16,11 +16,11 @@ namespace Framework
 
         public static string Password => GetConfiguration("password");
 
-        public static string DownloadsDir => Path.Combine(Directory.GetCurrentDirectory(), GetConfiguration("downloads_dir"));
+        public static string DownloadsDirectory => Path.Combine(Directory.GetCurrentDirectory(), GetConfiguration("downloads_dir"));
 
-        public static string ScreenshotDir => Path.Combine(Directory.GetCurrentDirectory(), GetConfiguration("screenshot_dir"));
+        public static string ScreenshotsDirectory => Path.Combine(Directory.GetCurrentDirectory(), GetConfiguration("screenshots_dir"));
 
-        public static BrowserTypes Browser => Enum.TryParse(GetConfiguration("browser"), true, out BrowserTypes val) ? val : BrowserTypes.Unknown;
+        public static BrowserTypes Browser => Enum.TryParse(GetConfiguration("browser"), true, out BrowserTypes value) ? value : BrowserTypes.Unknown;
 
         private static string GetConfiguration(string value) => ConfigurationManager.AppSettings[value];
 

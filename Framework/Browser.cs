@@ -21,14 +21,14 @@ namespace Framework
                     case BrowserTypes.Firefox:
                         var firefoxOptions = new FirefoxOptions();
                         firefoxOptions.SetPreference("browser.download.folderList", 2);
-                        firefoxOptions.SetPreference("browser.download.dir", Config.DownloadsDir);
+                        firefoxOptions.SetPreference("browser.download.dir", Config.DownloadsDirectory);
                         firefoxOptions.SetPreference("browser.helperApps.neverAsk.saveToDisk", "application/octet-stream");
                         _driver = new FirefoxDriver(firefoxOptions);
                         break;
 
                     case BrowserTypes.Chrome:
                         var chromeOptions = new ChromeOptions();
-                        chromeOptions.AddUserProfilePreference("download.default_directory", Config.DownloadsDir);
+                        chromeOptions.AddUserProfilePreference("download.default_directory", Config.DownloadsDirectory);
                         chromeOptions.AddUserProfilePreference("safebrowsing.enabled", true);
                         _driver = new ChromeDriver(chromeOptions);
                         break;
@@ -60,13 +60,25 @@ namespace Framework
             _driver.Navigate().GoToUrl(url);
         }
 
-        public static void TakeScreenshot()
+        public static string TakeScreenshot()
         {
-            var screenshotDriver = _driver as ITakesScreenshot;
-            var screenshot = screenshotDriver?.GetScreenshot();
-            FileUtils.CreateDirectoryIfNotExists(Config.ScreenshotDir);
-            screenshot?.SaveAsFile(Path.Combine(Config.ScreenshotDir,
-                DateTime.Now.ToString("yyyyMMddHHmmss") + FileTypes.PngImage.GetEnumDescription()), ScreenshotImageFormat.Png);
+            var screenshotsDriver = _driver as ITakesScreenshot;
+            var screenshots = screenshotsDriver?.GetScreenshot();
+            FileUtils.CreateDirectoryIfNotExists(Config.ScreenshotsDirectory);
+            var screenshotPath = Path.Combine(Config.ScreenshotsDirectory,
+                new TimeUtils().GetTimeNow(TimeFormats.TimeStamp) + FileTypes.PngImage.GetEnumDescription());
+            screenshots?.SaveAsFile(screenshotPath, ScreenshotImageFormat.Png);
+            return screenshotPath;
+        }
+
+        public static string GetPageSource()
+        {
+            return _driver.PageSource;
+        }
+
+        public static void SetImplicitWaitTimeOut(double timeout)
+        {
+            _driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(timeout);
         }
     }
 }

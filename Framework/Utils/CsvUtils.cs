@@ -1,37 +1,39 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using CsvHelper;
-using OpenQA.Selenium.Support.UI;
 
 namespace Framework.Utils
 {
     public class CsvUtils
     {
-        private static readonly WebDriverWait _wait = new WebDriverWait(Browser.GetDriver(), TimeSpan.FromSeconds(Config.ExplicitlyWait));
 
         public static Dictionary<int, List<string>> ReadCsv(string filePath, bool hasHeaderRecord)
         {
-            var map = new Dictionary<int, List<string>>();
+            var csvValues = new Dictionary<int, List<string>>();
             using (var fileReader = File.OpenText(filePath))
             {
                 var csv = new CsvReader(fileReader);
-                csv.Configuration.HasHeaderRecord = hasHeaderRecord;
-                var k = 0;
-                _wait.Until(result => csv.Read());
+                var countRows = 0;
+
                 while (csv.Read())
                 {
-                    var lst = new List<string>();
-                    for (var i = 0; csv.TryGetField(i, out string value); i++)
+                    var rowValues = new List<string>();
+
+                    if (countRows != 0 || !hasHeaderRecord)
                     {
-                        lst.Add(value);
+                        for (var i = 0; csv.TryGetField(i, out string value); i++)
+                        {
+                            rowValues.Add(value);
+                        }
+
+                        csvValues.Add(countRows, rowValues);
                     }
-                    map.Add(k, lst);
-                    k++;
+
+                    countRows++;
                 }
             }
 
-            return map;
+            return csvValues;
         }
     }
 }

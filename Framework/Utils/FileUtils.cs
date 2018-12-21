@@ -13,6 +13,7 @@ namespace Framework.Utils
         public static void DeleteFileIfExists(string pathFile)
         {
             var file = new FileInfo(pathFile);
+
             if (file.Exists)
             {
                 file.Delete();
@@ -46,16 +47,20 @@ namespace Framework.Utils
         public static bool IsOverDownloadFile(string downloadDir, string pathFile, string extension)
         {
             string downloadExtension = null;
+
             switch (Config.Browser)
             {
                 case BrowserTypes.Chrome:
                     downloadExtension = FileTypes.ChromeDownload.GetEnumDescription();
                     break;
+
                 case BrowserTypes.Firefox:
                     downloadExtension = FileTypes.FirefoxDownload.GetEnumDescription();
                     break;
+
                 case BrowserTypes.Unknown:
                     break;
+
                 default:
                     throw new ArgumentOutOfRangeException();
             }

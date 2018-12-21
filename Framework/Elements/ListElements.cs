@@ -20,10 +20,11 @@ namespace Framework.Elements
         public List<string> GetTextFromListElements()
         {
             var lstText = new List<string>();
-            foreach (var el in GetElements())
+
+            foreach (var element in GetElements())
             {
                 WaitElementIsVisible();
-                lstText.Add(el.Text.Trim());
+                lstText.Add(element.Text.Trim());
             }
 
             return lstText;

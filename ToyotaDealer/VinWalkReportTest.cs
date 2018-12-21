@@ -1,7 +1,10 @@
-﻿using Framework;
+﻿using System.IO;
+using Framework;
 using Framework.Enums;
+using Framework.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ToyotaDealer.Enums;
+using ToyotaDealer.Helpers;
 using ToyotaDealer.Pages;
 
 namespace ToyotaDealer
@@ -9,6 +12,8 @@ namespace ToyotaDealer
     [TestClass]
     public class VinWalkReportTest : BaseTest
     {
+        private readonly SoftAssert _softAssert = new SoftAssert();
+
         [TestInitialize]
         public void Precondition()
         {
@@ -36,22 +41,46 @@ namespace ToyotaDealer
             vinWalkReportPage.ClickVinWalkReportTableColumnElement(VinWalkTableColumns.Year);
             Assert.IsTrue(vinWalkReportPage.IsActiveSortVinWalkTableColumnAscending(VinWalkTableColumns.Year),
                 "Sort ascending for column 'Year' isn't active");
-            Assert.IsTrue(vinWalkReportPage.IsCorrectSortAscending(VinWalkTableColumns.Year),
+            Assert.IsTrue(vinWalkReportPage.IsCorrectColumnYearSortAscending(),
                 "Sort ascending for column 'Year' isn't correct");
         }
 
         [TestMethod]
-        public void ExportReportTest()
+        public void ExportReportToCsvTest()
         {
             Logger.Info("Step_4 Check export to Csv on Vin Walk Report page");
             var vinWalkReportPage = new VinWalkReportPage();
             vinWalkReportPage.ClickUpdateResultsButton();
             var fileName = vinWalkReportPage.DownloadVinWalkReportFile(FileTypes.Csv);
-            vinWalkReportPage.CheckExportToFile(fileName, FileTypes.Csv);
+            Assert.IsTrue(File.Exists(fileName), $"File {fileName} doesn't exist");
+            var vinWalkReportItemsFromTable = vinWalkReportPage.GetVinWalkReportItemsFromTable();
+            Assert.IsNotNull(vinWalkReportItemsFromTable, "Report from VIN Walk report table has value null");
+            var vinWalkReportItemsFromFile = FileReadingHelper.GetVinWalkReportItemsFromFile(fileName, FileTypes.Csv);
+            Assert.IsNotNull(vinWalkReportItemsFromFile, $"Report from csv file with VIN Walk report has value null");
+            var assertHelper = new AssertsHelper();
+            assertHelper.AssertAreEqualVinWalkReports(vinWalkReportItemsFromTable, vinWalkReportItemsFromTable,
+                $"Items from VIN Walk report table and VIN Walk report csv file aren't equal");
+        }
 
-            Logger.Info("Step_5 Check export to Excel on Vin Walk Report page");
-            fileName = vinWalkReportPage.DownloadVinWalkReportFile(FileTypes.Excel);
-            vinWalkReportPage.CheckExportToFile(fileName, FileTypes.Excel);
+        [TestMethod]
+        public void ExportReportToExcelTest()
+        {
+            Logger.Info("Step_4 Check export to Csv on Vin Walk Report page");
+            var vinWalkReportPage = new VinWalkReportPage();
+            vinWalkReportPage.ClickUpdateResultsButton();
+
+            var fileName = vinWalkReportPage.DownloadVinWalkReportFile(FileTypes.Excel);
+            Assert.IsTrue(File.Exists(fileName), $"File {fileName} doesn't exist");
+
+            var vinWalkReportItemsFromTable = vinWalkReportPage.GetVinWalkReportItemsFromTable();
+            Assert.IsNotNull(vinWalkReportItemsFromTable, "Report from VIN Walk report table has value null");
+
+            var vinWalkReportItemsFromFile = FileReadingHelper.GetVinWalkReportItemsFromFile(fileName, FileTypes.Excel);
+            Assert.IsNotNull(vinWalkReportItemsFromFile, $"Report from excel file with VIN Walk report has value null");
+
+            var assertHelper = new AssertsHelper();
+            assertHelper.AssertAreEqualVinWalkReports(vinWalkReportItemsFromTable, vinWalkReportItemsFromTable,
+                $"Items from VIN Walk report table and VIN Walk report excel file aren't equal");
         }
 
         [TestMethod]
@@ -63,11 +92,14 @@ namespace ToyotaDealer
             vinWalkReportPage.ClickUpdateResultsButton();
             var randomVinWalkReportColumns = vinWalkReportPage.GetRandomVinWalkReportTableColumns(columnsNumberToCheck);
             vinWalkReportPage.ClickLockColumnsElements(randomVinWalkReportColumns);
-            var columnsAreLocked = vinWalkReportPage.AreColumnsHaveLockStatus(randomVinWalkReportColumns, true);
+            randomVinWalkReportColumns.ForEach(column => _softAssert.IsTrue(vinWalkReportPage.IsColumnLocked(column),
+                $"Column {column} isn't locked"));
+
             vinWalkReportPage.ClickUnlockColumnsElements(randomVinWalkReportColumns);
-            var columnsAreUnlocked = vinWalkReportPage.AreColumnsHaveLockStatus(randomVinWalkReportColumns, false);
-            Assert.IsTrue(columnsAreLocked, "Some columns of table weren't locked (see log)");
-            Assert.IsTrue(columnsAreUnlocked, "Some columns of table weren't unlocked (see log)");
+            randomVinWalkReportColumns.ForEach(column => _softAssert.IsFalse(vinWalkReportPage.IsColumnLocked(column),
+                $"Column {column} isn't unlocked"));
+
+            _softAssert.AssertAll();
         }
     }
 }

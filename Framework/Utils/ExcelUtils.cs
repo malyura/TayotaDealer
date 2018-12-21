@@ -8,28 +8,31 @@ namespace Framework.Utils
     {
         public static Dictionary<int, List<string>> ReadExcel(string filePath, bool hasHeaderRecord)
         {
-            var map = new Dictionary<int, List<string>>();
+            var excelValues = new Dictionary<int, List<string>>();
             using (var fs = File.Open(filePath, FileMode.Open, FileAccess.Read))
             {
                 var excelReader = ExcelReaderFactory.CreateOpenXmlReader(fs);
                 var countRows = 0;
+
                 while (excelReader.Read())
                 {
-                    var lst = new List<string>();
+                    var rowValues = new List<string>();
+
                     if (countRows != 0 || !hasHeaderRecord)
                     {
                         for (var i = 0; i < excelReader.FieldCount; i++)
                         {
-                            lst.Add(excelReader.GetValue(i) == null ? string.Empty : excelReader.GetValue(i).ToString());
+                            rowValues.Add(excelReader.GetValue(i) == null ? string.Empty : excelReader.GetValue(i).ToString());
                         }
-                        map.Add(countRows, lst);
+
+                        excelValues.Add(countRows, rowValues);
                     }
 
                     countRows++;
                 }
             }
 
-            return map;
+            return excelValues;
         }
     }
 }

@@ -48,6 +48,14 @@ namespace Framework.Elements
 
         public bool IsPresent() => Driver.FindElements(Locator).Count > 0;
 
+        public bool IsPresent(double timeout)
+        {
+            Browser.SetImplicitWaitTimeOut(timeout);
+            var condition = Driver.FindElements(Locator).Count > 0;
+            Browser.SetImplicitWaitTimeOut(Config.ImplicitlyWait);
+            return condition;
+        }
+
         public void WaitElementIsVisible()
         {
             Wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(Locator));

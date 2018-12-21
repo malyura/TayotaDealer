@@ -46,6 +46,9 @@
     <Reference Include="ExcelDataReader, Version=3.4.2.0, Culture=neutral, PublicKeyToken=93517dbe6a4012fa, processorArchitecture=MSIL">
       <HintPath>..\packages\ExcelDataReader.3.4.2\lib\net45\ExcelDataReader.dll</HintPath>
     </Reference>
+    <Reference Include="HtmlAgilityPack, Version=1.8.11.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
+      <HintPath>..\packages\HtmlAgilityPack.1.8.11\lib\Net45\HtmlAgilityPack.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.VisualStudio.TestPlatform.TestFramework, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\MSTest.TestFramework.1.4.0\lib\net45\Microsoft.VisualStudio.TestPlatform.TestFramework.dll</HintPath>
@@ -99,6 +102,8 @@
   <ItemGroup>
     <Compile Include="Enums\NavigationMenuItems.cs" />
     <Compile Include="Enums\VinWalkTableColumns.cs" />
+    <Compile Include="Helpers\AssertsHelper.cs" />
+    <Compile Include="Helpers\FileReadingHelper.cs" />
     <Compile Include="Menus\NavigationMenu.cs" />
     <Compile Include="Enums\ReportNames.cs" />
     <Compile Include="Models\VinWalkReport.cs" />
