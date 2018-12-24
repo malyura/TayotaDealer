@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Framework.Utils;
+using Framework.Utilities;
 using ToyotaDealer.Models;
 
 namespace ToyotaDealer.Helpers

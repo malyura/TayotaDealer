@@ -2,7 +2,7 @@
 
 namespace Framework.Enums
 {
-    public enum TimeFormats
+    public enum TimeFormat
     {
         [Description("yyyyMMddHHmmss")]
         TimeStamp = 0,

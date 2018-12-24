@@ -1,6 +1,6 @@
 ﻿using Framework;
 using Framework.Elements;
-using Framework.Utils;
+using Framework.Utilities;
 using OpenQA.Selenium;
 using ToyotaDealer.Enums;
 
@@ -15,12 +15,12 @@ namespace ToyotaDealer.Pages
         {
         }
 
-        public void ClickReportNameLink(ReportNames name)
+        public void ClickReportNameLink(ReportName name)
         {
             GetReportNameLink(name).Click();
         }
 
-        private Element GetReportNameLink(ReportNames name)
+        private Element GetReportNameLink(ReportName name)
         {
             return new Element(By.XPath(string.Format(_reportNameLocator, name.GetEnumDescription())), $"Report {name.ToString()}");
         }

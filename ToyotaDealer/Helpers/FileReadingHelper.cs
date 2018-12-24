@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using Framework;
 using Framework.Enums;
-using Framework.Utils;
+using Framework.Utilities;
 using ToyotaDealer.Enums;
 using ToyotaDealer.Models;
 
@@ -12,21 +9,21 @@ namespace ToyotaDealer.Helpers
 {
     public class FileReadingHelper
     {
-        public static List<VinWalkReport> GetVinWalkReportItemsFromFile(string filePath, FileTypes type)
+        public static List<VinWalkReport> GetVinWalkReportItemsFromFile(string filePath, FileType type)
         {
             Dictionary<int, List<string>> valuesFromFile;
 
             switch (type)
             {
-                case FileTypes.Csv:
+                case FileType.Csv:
                     {
-                        valuesFromFile = CsvUtils.ReadCsv(filePath, true);
+                        valuesFromFile = CsvUtilities.ReadCsv(filePath, true);
                         break;
                     }
 
-                case FileTypes.Excel:
+                case FileType.Excel:
                     {
-                        valuesFromFile = ExcelUtils.ReadExcel(filePath, true);
+                        valuesFromFile = ExcelUtilities.ReadExcel(filePath, true);
                         break;
                     }
 
@@ -40,29 +37,29 @@ namespace ToyotaDealer.Helpers
             {
                 var report = new VinWalkReport
                 {
-                    Vin = values[GetColumnIndexForFile(VinWalkTableColumns.Vin)],
-                    Year = int.Parse(values[GetColumnIndexForFile(VinWalkTableColumns.Year)]),
-                    Make = values[GetColumnIndexForFile(VinWalkTableColumns.Make)],
-                    Model = values[GetColumnIndexForFile(VinWalkTableColumns.Model)],
-                    Trim = values[GetColumnIndexForFile(VinWalkTableColumns.Trim)],
-                    Mmr = values[GetColumnIndexForFile(VinWalkTableColumns.Mmr)],
-                    Mileage = values[GetColumnIndexForFile(VinWalkTableColumns.Mileage)],
-                    Location = values[GetColumnIndexForFile(VinWalkTableColumns.Location)],
-                    Condition = values[GetColumnIndexForFile(VinWalkTableColumns.Condition)],
-                    Color = values[GetColumnIndexForFile(VinWalkTableColumns.Color)],
-                    Content = values[GetColumnIndexForFile(VinWalkTableColumns.Content)],
-                    CarFax = values[GetColumnIndexForFile(VinWalkTableColumns.CarFax)],
-                    Structural = values[GetColumnIndexForFile(VinWalkTableColumns.Structural)],
-                    TimesRun = values[GetColumnIndexForFile(VinWalkTableColumns.TimesRun)],
-                    SalesChanel = values[GetColumnIndexForFile(VinWalkTableColumns.SalesChanel)],
-                    Misc = values[GetColumnIndexForFile(VinWalkTableColumns.Misc)],
-                    Manual = values[GetColumnIndexForFile(VinWalkTableColumns.Manual)],
-                    Floor = values[GetColumnIndexForFile(VinWalkTableColumns.Floor)],
-                    Status = values[GetColumnIndexForFile(VinWalkTableColumns.Status)],
-                    SalePrice = values[GetColumnIndexForFile(VinWalkTableColumns.SalePrice)],
-                    SoldDate = values[GetColumnIndexForFile(VinWalkTableColumns.SoldDate)],
-                    PricingRule = values[GetColumnIndexForFile(VinWalkTableColumns.PricingRule)],
-                    DatePriced = values[GetColumnIndexForFile(VinWalkTableColumns.DatePriced)]
+                    Vin = values[GetColumnIndexForFile(VinWalkTableColumn.Vin)],
+                    Year = int.Parse(values[GetColumnIndexForFile(VinWalkTableColumn.Year)]),
+                    Make = values[GetColumnIndexForFile(VinWalkTableColumn.Make)],
+                    Model = values[GetColumnIndexForFile(VinWalkTableColumn.Model)],
+                    Trim = values[GetColumnIndexForFile(VinWalkTableColumn.Trim)],
+                    Mmr = values[GetColumnIndexForFile(VinWalkTableColumn.Mmr)],
+                    Mileage = values[GetColumnIndexForFile(VinWalkTableColumn.Mileage)],
+                    Location = values[GetColumnIndexForFile(VinWalkTableColumn.Location)],
+                    Condition = values[GetColumnIndexForFile(VinWalkTableColumn.Condition)],
+                    Color = values[GetColumnIndexForFile(VinWalkTableColumn.Color)],
+                    Content = values[GetColumnIndexForFile(VinWalkTableColumn.Content)],
+                    CarFax = values[GetColumnIndexForFile(VinWalkTableColumn.CarFax)],
+                    Structural = values[GetColumnIndexForFile(VinWalkTableColumn.Structural)],
+                    TimesRun = values[GetColumnIndexForFile(VinWalkTableColumn.TimesRun)],
+                    SalesChanel = values[GetColumnIndexForFile(VinWalkTableColumn.SalesChanel)],
+                    Misc = values[GetColumnIndexForFile(VinWalkTableColumn.Misc)],
+                    Manual = values[GetColumnIndexForFile(VinWalkTableColumn.Manual)],
+                    Floor = values[GetColumnIndexForFile(VinWalkTableColumn.Floor)],
+                    Status = values[GetColumnIndexForFile(VinWalkTableColumn.Status)],
+                    SalePrice = values[GetColumnIndexForFile(VinWalkTableColumn.SalePrice)],
+                    SoldDate = values[GetColumnIndexForFile(VinWalkTableColumn.SoldDate)],
+                    PricingRule = values[GetColumnIndexForFile(VinWalkTableColumn.PricingRule)],
+                    DatePriced = values[GetColumnIndexForFile(VinWalkTableColumn.DatePriced)]
                 };
 
                 reportItems.Add(report);
@@ -71,6 +68,6 @@ namespace ToyotaDealer.Helpers
             return reportItems;
         }
 
-        private static int GetColumnIndexForFile(VinWalkTableColumns tableColumn) => (int)tableColumn - 1;
+        private static int GetColumnIndexForFile(VinWalkTableColumn tableColumn) => (int)tableColumn - 1;
     }
 }

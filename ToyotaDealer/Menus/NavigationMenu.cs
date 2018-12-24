@@ -1,6 +1,6 @@
 ﻿using Framework;
 using Framework.Elements;
-using Framework.Utils;
+using Framework.Utilities;
 using OpenQA.Selenium;
 using ToyotaDealer.Enums;
 
@@ -15,12 +15,12 @@ namespace ToyotaDealer.Menus
         {
         }
 
-        public void ClickNavigationMenuItem(NavigationMenuItems item)
+        public void ClickNavigationMenuItem(NavigationMenuItem item)
         {
             GetNavigationMenuItem(item).Click();
         }
 
-        private Element GetNavigationMenuItem(NavigationMenuItems item)
+        private Element GetNavigationMenuItem(NavigationMenuItem item)
         {
             return new Element(By.XPath(string.Format(_navigationMenuItemLocator, item.GetEnumDescription())), item.ToString());
         }

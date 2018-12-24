@@ -1,11 +1,11 @@
 ﻿using System;
 using Framework.Enums;
 
-namespace Framework.Utils
+namespace Framework.Utilities
 {
-    public class TimeUtils
+    public class TimeUtilities
     {
-        public string GetTimeNow(TimeFormats format)
+        public string GetTimeNow(TimeFormat format)
         {
             return DateTime.Now.ToString(format.GetEnumDescription());
         }

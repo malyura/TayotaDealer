@@ -6,7 +6,7 @@ using Framework.Elements;
 using OpenQA.Selenium;
 using Framework;
 using Framework.Enums;
-using Framework.Utils;
+using Framework.Utilities;
 using HtmlAgilityPack;
 using ToyotaDealer.Enums;
 using ToyotaDealer.Models;
@@ -16,7 +16,7 @@ namespace ToyotaDealer.Pages
     public class VinWalkReportPage : BasePage
     {
         private static readonly By _vinWalkReportPageLocator =
-            By.XPath($"//*[normalize-space(@class)='location-table-text' and normalize-space(.)='{ReportNames.VinWalk.GetEnumDescription()}']");
+            By.XPath($"//*[normalize-space(@class)='location-table-text' and normalize-space(.)='{ReportName.VinWalk.GetEnumDescription()}']");
         private static readonly string _vinWalkReportTableColumnLocator = "//th[@id='visualization-Tabular-th-{0}']";
         private static readonly string _activeSortVinWalkTableColumnAscendingLocator = 
             "//th[@id='visualization-Tabular-th-{0}' and contains(@class, 'active') and contains(@class, 'asc')]";
@@ -33,7 +33,7 @@ namespace ToyotaDealer.Pages
         {
         }
 
-        public bool IsActiveSortVinWalkTableColumnAscending(VinWalkTableColumns column)
+        public bool IsActiveSortVinWalkTableColumnAscending(VinWalkTableColumn column)
         {
             return new Element(By.XPath(string.Format(_activeSortVinWalkTableColumnAscendingLocator, column)),
                 $"Active sort ascending for {column.ToString()} column").IsPresent();
@@ -44,12 +44,12 @@ namespace ToyotaDealer.Pages
             _updateResultsButton.Click();
         }
 
-        public void ClickVinWalkReportTableColumnElement(VinWalkTableColumns column)
+        public void ClickVinWalkReportTableColumnElement(VinWalkTableColumn column)
         {
             GetVinWalkReportTableColumnElement(column).Click();
         }
 
-        public void ClickLockColumnsElements(List<VinWalkTableColumns> columns)
+        public void ClickLockColumnsElements(List<VinWalkTableColumn> columns)
         {
             foreach (var element in columns)
             {
@@ -58,7 +58,7 @@ namespace ToyotaDealer.Pages
             }
         }
 
-        public void ClickUnlockColumnsElements(List<VinWalkTableColumns> columns)
+        public void ClickUnlockColumnsElements(List<VinWalkTableColumn> columns)
         {
             foreach (var element in columns)
             {
@@ -66,7 +66,7 @@ namespace ToyotaDealer.Pages
             }
         }
 
-        public bool IsColumnLocked(VinWalkTableColumns column)
+        public bool IsColumnLocked(VinWalkTableColumn column)
         {
             return new Element(By.XPath(string.Format(_lockTableColumnLocator, column.GetEnumDescription())),
                 $"Locked column {column}").IsPresent(double.Parse(ElementTimeout.Small.GetEnumDescription()));
@@ -74,8 +74,8 @@ namespace ToyotaDealer.Pages
 
         public bool IsCorrectColumnYearSortAscending()
         {
-            var vinValues = GetTextFromVinWalkTableItems(VinWalkTableColumns.Vin);
-            var yearValues = GetTextFromVinWalkTableItems(VinWalkTableColumns.Year);
+            var vinValues = GetTextFromVinWalkTableItems(VinWalkTableColumn.Vin);
+            var yearValues = GetTextFromVinWalkTableItems(VinWalkTableColumn.Year);
             var reportItems = vinValues.Select((t, i) => new VinWalkReport
             {
                 Vin = t,
@@ -95,12 +95,12 @@ namespace ToyotaDealer.Pages
             return true;
         }
 
-        public string DownloadVinWalkReportFile(FileTypes fileType)
+        public string DownloadVinWalkReportFile(FileType fileType)
         {
-            FileUtils.DeleteDirectoryIfExists(Config.DownloadsDirectory);
-            FileUtils.CreateDirectoryIfNotExists(Config.DownloadsDirectory);
+            FileUtilities.DeleteDirectoryIfExists(Config.DownloadsDirectory);
+            FileUtilities.CreateDirectoryIfNotExists(Config.DownloadsDirectory);
             new Element(By.Id(string.Format(_exportBtnLocator, fileType.ToString())), $"{fileType} export").Click();
-            Wait.Until(result => FileUtils.IsOverDownloadFile(Config.DownloadsDirectory,
+            Wait.Until(result => FileUtilities.IsOverDownloadFile(Config.DownloadsDirectory,
                 Directory.GetFiles(Config.DownloadsDirectory).FirstOrDefault(),
                 fileType.GetEnumDescription()));
 
@@ -108,14 +108,14 @@ namespace ToyotaDealer.Pages
 
         }
 
-        public List<VinWalkTableColumns> GetRandomVinWalkReportTableColumns(int numberOfElements)
+        public List<VinWalkTableColumn> GetRandomVinWalkReportTableColumns(int numberOfElements)
         {
-            var allColumnNameList = Enum.GetValues(typeof(VinWalkTableColumns)).Cast<VinWalkTableColumns>().ToList();
-            var randomColumnNameList = new List<VinWalkTableColumns>();
+            var allColumnNameList = Enum.GetValues(typeof(VinWalkTableColumn)).Cast<VinWalkTableColumn>().ToList();
+            var randomColumnNameList = new List<VinWalkTableColumn>();
 
             for (var i = 0; i < numberOfElements; i++)
             {
-                var number = RandomUtils.GetRandomNumber(allColumnNameList.Count);
+                var number = RandomUtilities.GetRandomNumber(allColumnNameList.Count);
                 randomColumnNameList.Add(allColumnNameList[number]);
                 allColumnNameList.RemoveAt(number);
             }
@@ -125,29 +125,29 @@ namespace ToyotaDealer.Pages
 
         public List<VinWalkReport> GetVinWalkReportItemsFromTable()
         {
-            var vinValues = GetTextFromVinWalkTableItems(VinWalkTableColumns.Vin);
-            var yearValues = GetTextFromVinWalkTableItems(VinWalkTableColumns.Year);
-            var makeValues = GetTextFromVinWalkTableItems(VinWalkTableColumns.Make);
-            var modelValues = GetTextFromVinWalkTableItems(VinWalkTableColumns.Model);
-            var trimValues = GetTextFromVinWalkTableItems(VinWalkTableColumns.Trim);
-            var mmrValues = GetTextFromVinWalkTableItems(VinWalkTableColumns.Mmr);
-            var mileageValues = GetTextFromVinWalkTableItems(VinWalkTableColumns.Mileage);
-            var locationValues = GetTextFromVinWalkTableItems(VinWalkTableColumns.Location);
-            var conditionValues = GetTextFromVinWalkTableItems(VinWalkTableColumns.Condition);
-            var colorValues = GetTextFromVinWalkTableItems(VinWalkTableColumns.Color);
-            var contentValues = GetTextFromVinWalkTableItems(VinWalkTableColumns.Content);
-            var carFaxValues = GetTextFromVinWalkTableItems(VinWalkTableColumns.CarFax);
-            var structuralValues = GetTextFromVinWalkTableItems(VinWalkTableColumns.Structural);
-            var timesRunValues = GetTextFromVinWalkTableItems(VinWalkTableColumns.TimesRun);
-            var salesChanelValues = GetTextFromVinWalkTableItems(VinWalkTableColumns.SalesChanel);
-            var miscValues = GetTextFromVinWalkTableItems(VinWalkTableColumns.Misc);
-            var manualValues = GetTextFromVinWalkTableItems(VinWalkTableColumns.Manual);
-            var floorValues = GetTextFromVinWalkTableItems(VinWalkTableColumns.Floor);
-            var statusValues = GetTextFromVinWalkTableItems(VinWalkTableColumns.Status);
-            var salePriceValues = GetTextFromVinWalkTableItems(VinWalkTableColumns.SalePrice);
-            var soldDateValues = GetTextFromVinWalkTableItems(VinWalkTableColumns.SoldDate);
-            var pricingRuleValues = GetTextFromVinWalkTableItems(VinWalkTableColumns.PricingRule);
-            var datePricedValues = GetTextFromVinWalkTableItems(VinWalkTableColumns.DatePriced);
+            var vinValues = GetTextFromVinWalkTableItems(VinWalkTableColumn.Vin);
+            var yearValues = GetTextFromVinWalkTableItems(VinWalkTableColumn.Year);
+            var makeValues = GetTextFromVinWalkTableItems(VinWalkTableColumn.Make);
+            var modelValues = GetTextFromVinWalkTableItems(VinWalkTableColumn.Model);
+            var trimValues = GetTextFromVinWalkTableItems(VinWalkTableColumn.Trim);
+            var mmrValues = GetTextFromVinWalkTableItems(VinWalkTableColumn.Mmr);
+            var mileageValues = GetTextFromVinWalkTableItems(VinWalkTableColumn.Mileage);
+            var locationValues = GetTextFromVinWalkTableItems(VinWalkTableColumn.Location);
+            var conditionValues = GetTextFromVinWalkTableItems(VinWalkTableColumn.Condition);
+            var colorValues = GetTextFromVinWalkTableItems(VinWalkTableColumn.Color);
+            var contentValues = GetTextFromVinWalkTableItems(VinWalkTableColumn.Content);
+            var carFaxValues = GetTextFromVinWalkTableItems(VinWalkTableColumn.CarFax);
+            var structuralValues = GetTextFromVinWalkTableItems(VinWalkTableColumn.Structural);
+            var timesRunValues = GetTextFromVinWalkTableItems(VinWalkTableColumn.TimesRun);
+            var salesChanelValues = GetTextFromVinWalkTableItems(VinWalkTableColumn.SalesChanel);
+            var miscValues = GetTextFromVinWalkTableItems(VinWalkTableColumn.Misc);
+            var manualValues = GetTextFromVinWalkTableItems(VinWalkTableColumn.Manual);
+            var floorValues = GetTextFromVinWalkTableItems(VinWalkTableColumn.Floor);
+            var statusValues = GetTextFromVinWalkTableItems(VinWalkTableColumn.Status);
+            var salePriceValues = GetTextFromVinWalkTableItems(VinWalkTableColumn.SalePrice);
+            var soldDateValues = GetTextFromVinWalkTableItems(VinWalkTableColumn.SoldDate);
+            var pricingRuleValues = GetTextFromVinWalkTableItems(VinWalkTableColumn.PricingRule);
+            var datePricedValues = GetTextFromVinWalkTableItems(VinWalkTableColumn.DatePriced);
 
             var reportItems = vinValues.Select((t, i) => new VinWalkReport
             {
@@ -179,22 +179,22 @@ namespace ToyotaDealer.Pages
             return reportItems;
         }
 
-        private static Element GetLockElement(VinWalkTableColumns column)
+        private static Element GetLockElement(VinWalkTableColumn column)
         {
             return new Element(By.XPath(string.Format(_lockLocator, column.GetEnumDescription())), $"Lock column {column}");
         }
 
-        private static Element GetUnlockElement(VinWalkTableColumns column)
+        private static Element GetUnlockElement(VinWalkTableColumn column)
         {
             return new Element(By.XPath(string.Format(_unlockLocator, column.GetEnumDescription())), $"Unlock column {column}");
         }
 
-        private static Element GetVinWalkReportTableColumnElement(VinWalkTableColumns column)
+        private static Element GetVinWalkReportTableColumnElement(VinWalkTableColumn column)
         {
             return new Element(By.XPath(string.Format(_vinWalkReportTableColumnLocator, column.GetEnumDescription())), column.ToString());
         }
 
-        private static List<string> GetTextFromVinWalkTableItems(VinWalkTableColumns column)
+        private static List<string> GetTextFromVinWalkTableItems(VinWalkTableColumn column)
         {
             var pageSource = Browser.GetPageSource();
             var htmlDoc = new HtmlDocument();

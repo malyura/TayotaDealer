@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace Framework.Utils
+namespace Framework.Utilities
 {
-    public class RandomUtils
+    public class RandomUtilities
     {
         private static readonly Random _random = new Random();
 

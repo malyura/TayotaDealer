@@ -2,7 +2,7 @@
 
 namespace Framework.Enums
 {
-    public enum FileTypes
+    public enum FileType
     {
         [Description(".csv")]
         Csv,

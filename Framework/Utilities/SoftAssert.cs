@@ -3,7 +3,7 @@ using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NLog;
 
-namespace Framework.Utils
+namespace Framework.Utilities
 {
     public class SoftAssert
     {

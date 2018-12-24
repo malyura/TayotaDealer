@@ -4,7 +4,7 @@ using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Firefox;
 using System.IO;
 using Framework.Enums;
-using Framework.Utils;
+using Framework.Utilities;
 
 namespace Framework
 {
@@ -64,9 +64,9 @@ namespace Framework
         {
             var screenshotsDriver = _driver as ITakesScreenshot;
             var screenshots = screenshotsDriver?.GetScreenshot();
-            FileUtils.CreateDirectoryIfNotExists(Config.ScreenshotsDirectory);
+            FileUtilities.CreateDirectoryIfNotExists(Config.ScreenshotsDirectory);
             var screenshotPath = Path.Combine(Config.ScreenshotsDirectory,
-                new TimeUtils().GetTimeNow(TimeFormats.TimeStamp) + FileTypes.PngImage.GetEnumDescription());
+                new TimeUtilities().GetTimeNow(TimeFormat.TimeStamp) + FileType.PngImage.GetEnumDescription());
             screenshots?.SaveAsFile(screenshotPath, ScreenshotImageFormat.Png);
             return screenshotPath;
         }

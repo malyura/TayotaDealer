@@ -4,9 +4,9 @@ using System.Linq;
 using Framework.Enums;
 using OpenQA.Selenium.Support.UI;
 
-namespace Framework.Utils
+namespace Framework.Utilities
 {
-    public class FileUtils
+    public class FileUtilities
     {
         private static readonly WebDriverWait _wait = new WebDriverWait(Browser.GetDriver(), TimeSpan.FromSeconds(Config.ExplicitlyWait));
 
@@ -51,11 +51,11 @@ namespace Framework.Utils
             switch (Config.Browser)
             {
                 case BrowserTypes.Chrome:
-                    downloadExtension = FileTypes.ChromeDownload.GetEnumDescription();
+                    downloadExtension = FileType.ChromeDownload.GetEnumDescription();
                     break;
 
                 case BrowserTypes.Firefox:
-                    downloadExtension = FileTypes.FirefoxDownload.GetEnumDescription();
+                    downloadExtension = FileType.FirefoxDownload.GetEnumDescription();
                     break;
 
                 case BrowserTypes.Unknown:

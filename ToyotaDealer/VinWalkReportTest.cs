@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using Framework;
 using Framework.Enums;
-using Framework.Utils;
+using Framework.Utilities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ToyotaDealer.Enums;
 using ToyotaDealer.Helpers;
@@ -25,11 +25,11 @@ namespace ToyotaDealer
 
             Logger.Info("Step_2 Click menu item 'Reports' on Main page");
             var mainPage = new MainPage();
-            mainPage.NavigationMenu.ClickNavigationMenuItem(NavigationMenuItems.Reports);
+            mainPage.NavigationMenu.ClickNavigationMenuItem(NavigationMenuItem.Reports);
 
             Logger.Info("Step_3 Select 'VIN walk' report on Reports page");
             var reportsPage = new ReportsPage();
-            reportsPage.ClickReportNameLink(ReportNames.VinWalk);
+            reportsPage.ClickReportNameLink(ReportName.VinWalk);
         }
 
         [TestMethod]
@@ -38,8 +38,8 @@ namespace ToyotaDealer
             Logger.Info("Step_4 Check sorting by Year on Vin Walk Report page");
             var vinWalkReportPage = new VinWalkReportPage();
             vinWalkReportPage.ClickUpdateResultsButton();
-            vinWalkReportPage.ClickVinWalkReportTableColumnElement(VinWalkTableColumns.Year);
-            Assert.IsTrue(vinWalkReportPage.IsActiveSortVinWalkTableColumnAscending(VinWalkTableColumns.Year),
+            vinWalkReportPage.ClickVinWalkReportTableColumnElement(VinWalkTableColumn.Year);
+            Assert.IsTrue(vinWalkReportPage.IsActiveSortVinWalkTableColumnAscending(VinWalkTableColumn.Year),
                 "Sort ascending for column 'Year' isn't active");
             Assert.IsTrue(vinWalkReportPage.IsCorrectColumnYearSortAscending(),
                 "Sort ascending for column 'Year' isn't correct");
@@ -51,15 +51,15 @@ namespace ToyotaDealer
             Logger.Info("Step_4 Check export to Csv on Vin Walk Report page");
             var vinWalkReportPage = new VinWalkReportPage();
             vinWalkReportPage.ClickUpdateResultsButton();
-            var fileName = vinWalkReportPage.DownloadVinWalkReportFile(FileTypes.Csv);
+            var fileName = vinWalkReportPage.DownloadVinWalkReportFile(FileType.Csv);
             Assert.IsTrue(File.Exists(fileName), $"File {fileName} doesn't exist");
             var vinWalkReportItemsFromTable = vinWalkReportPage.GetVinWalkReportItemsFromTable();
             Assert.IsNotNull(vinWalkReportItemsFromTable, "Report from VIN Walk report table has value null");
-            var vinWalkReportItemsFromFile = FileReadingHelper.GetVinWalkReportItemsFromFile(fileName, FileTypes.Csv);
-            Assert.IsNotNull(vinWalkReportItemsFromFile, $"Report from csv file with VIN Walk report has value null");
+            var vinWalkReportItemsFromFile = FileReadingHelper.GetVinWalkReportItemsFromFile(fileName, FileType.Csv);
+            Assert.IsNotNull(vinWalkReportItemsFromFile, "Report from csv file with VIN Walk report has value null");
             var assertHelper = new AssertsHelper();
             assertHelper.AssertAreEqualVinWalkReports(vinWalkReportItemsFromTable, vinWalkReportItemsFromTable,
-                $"Items from VIN Walk report table and VIN Walk report csv file aren't equal");
+                "Items from VIN Walk report table and VIN Walk report csv file aren't equal");
         }
 
         [TestMethod]
@@ -69,18 +69,18 @@ namespace ToyotaDealer
             var vinWalkReportPage = new VinWalkReportPage();
             vinWalkReportPage.ClickUpdateResultsButton();
 
-            var fileName = vinWalkReportPage.DownloadVinWalkReportFile(FileTypes.Excel);
+            var fileName = vinWalkReportPage.DownloadVinWalkReportFile(FileType.Excel);
             Assert.IsTrue(File.Exists(fileName), $"File {fileName} doesn't exist");
 
             var vinWalkReportItemsFromTable = vinWalkReportPage.GetVinWalkReportItemsFromTable();
             Assert.IsNotNull(vinWalkReportItemsFromTable, "Report from VIN Walk report table has value null");
 
-            var vinWalkReportItemsFromFile = FileReadingHelper.GetVinWalkReportItemsFromFile(fileName, FileTypes.Excel);
-            Assert.IsNotNull(vinWalkReportItemsFromFile, $"Report from excel file with VIN Walk report has value null");
+            var vinWalkReportItemsFromFile = FileReadingHelper.GetVinWalkReportItemsFromFile(fileName, FileType.Excel);
+            Assert.IsNotNull(vinWalkReportItemsFromFile, "Report from excel file with VIN Walk report has value null");
 
             var assertHelper = new AssertsHelper();
             assertHelper.AssertAreEqualVinWalkReports(vinWalkReportItemsFromTable, vinWalkReportItemsFromTable,
-                $"Items from VIN Walk report table and VIN Walk report excel file aren't equal");
+                "Items from VIN Walk report table and VIN Walk report excel file aren't equal");
         }
 
         [TestMethod]

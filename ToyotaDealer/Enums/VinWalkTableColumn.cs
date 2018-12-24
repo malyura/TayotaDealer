@@ -2,7 +2,7 @@
 
 namespace ToyotaDealer.Enums
 {
-    public enum VinWalkTableColumns
+    public enum VinWalkTableColumn
     {
         [Description("VIN")]
         Vin = 1,

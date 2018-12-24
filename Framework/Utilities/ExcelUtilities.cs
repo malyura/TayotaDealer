@@ -1,17 +1,17 @@
-﻿using System.IO;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.IO;
 using ExcelDataReader;
 
-namespace Framework.Utils
+namespace Framework.Utilities
 {
-    public class ExcelUtils
+    public class ExcelUtilities
     {
         public static Dictionary<int, List<string>> ReadExcel(string filePath, bool hasHeaderRecord)
         {
             var excelValues = new Dictionary<int, List<string>>();
-            using (var fs = File.Open(filePath, FileMode.Open, FileAccess.Read))
+            using (var fileStream = File.Open(filePath, FileMode.Open, FileAccess.Read))
             {
-                var excelReader = ExcelReaderFactory.CreateOpenXmlReader(fs);
+                var excelReader = ExcelReaderFactory.CreateOpenXmlReader(fileStream);
                 var countRows = 0;
 
                 while (excelReader.Read())

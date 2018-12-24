@@ -1,9 +1,9 @@
 ﻿using System;
 using System.ComponentModel;
 
-namespace Framework.Utils
+namespace Framework.Utilities
 {
-    public static class EnumUtils
+    public static class EnumUtilities
     {
         public static string GetEnumDescription(this Enum value)
         {

@@ -100,12 +100,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Enums\NavigationMenuItems.cs" />
-    <Compile Include="Enums\VinWalkTableColumns.cs" />
+    <Compile Include="Enums\NavigationMenuItem.cs" />
+    <Compile Include="Enums\VinWalkTableColumn.cs" />
     <Compile Include="Helpers\AssertsHelper.cs" />
     <Compile Include="Helpers\FileReadingHelper.cs" />
     <Compile Include="Menus\NavigationMenu.cs" />
-    <Compile Include="Enums\ReportNames.cs" />
+    <Compile Include="Enums\ReportName.cs" />
     <Compile Include="Models\VinWalkReport.cs" />
     <Compile Include="Pages\LoginPage.cs" />
     <Compile Include="Pages\MainPage.cs" />

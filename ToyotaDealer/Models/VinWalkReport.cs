@@ -1,6 +1,4 @@
-﻿using System.ServiceModel.Security;
-
-namespace ToyotaDealer.Models
+﻿namespace ToyotaDealer.Models
 {
     public class VinWalkReport
     {

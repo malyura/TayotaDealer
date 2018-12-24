@@ -2,9 +2,9 @@
 using System.IO;
 using CsvHelper;
 
-namespace Framework.Utils
+namespace Framework.Utilities
 {
-    public class CsvUtils
+    public class CsvUtilities
     {
 
         public static Dictionary<int, List<string>> ReadCsv(string filePath, bool hasHeaderRecord)

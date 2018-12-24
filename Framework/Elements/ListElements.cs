@@ -19,15 +19,15 @@ namespace Framework.Elements
 
         public List<string> GetTextFromListElements()
         {
-            var lstText = new List<string>();
+            var textFromElements = new List<string>();
 
             foreach (var element in GetElements())
             {
                 WaitElementIsVisible();
-                lstText.Add(element.Text.Trim());
+                textFromElements.Add(element.Text.Trim());
             }
 
-            return lstText;
+            return textFromElements;
         }
 
         public IWebElement GetElementFromList(int index)

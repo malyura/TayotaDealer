@@ -2,7 +2,7 @@
 
 namespace ToyotaDealer.Enums
 {
-    public enum ReportNames
+    public enum ReportName
     {
         [Description("Performance Reporting By Time6")]
         PerformanceReportingByTime = 0,

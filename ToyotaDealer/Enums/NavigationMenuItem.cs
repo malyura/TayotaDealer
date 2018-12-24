@@ -2,7 +2,7 @@
 
 namespace ToyotaDealer.Enums
 {
-    public enum NavigationMenuItems
+    public enum NavigationMenuItem
     {
         [Description("dashboard")]
         Home = 0,
