@@ -51,12 +51,16 @@ namespace ToyotaDealer
             Logger.Info("Step_4 Check export to Csv on Vin Walk Report page");
             var vinWalkReportPage = new VinWalkReportPage();
             vinWalkReportPage.ClickUpdateResultsButton();
+
             var fileName = vinWalkReportPage.DownloadVinWalkReportFile(FileType.Csv);
             Assert.IsTrue(File.Exists(fileName), $"File {fileName} doesn't exist");
+
             var vinWalkReportItemsFromTable = vinWalkReportPage.GetVinWalkReportItemsFromTable();
             Assert.IsNotNull(vinWalkReportItemsFromTable, "Report from VIN Walk report table has value null");
+
             var vinWalkReportItemsFromFile = FileReadingHelper.GetVinWalkReportItemsFromFile(fileName, FileType.Csv);
             Assert.IsNotNull(vinWalkReportItemsFromFile, "Report from csv file with VIN Walk report has value null");
+
             var assertHelper = new AssertsHelper();
             assertHelper.AssertAreEqualVinWalkReports(vinWalkReportItemsFromTable, vinWalkReportItemsFromTable,
                 "Items from VIN Walk report table and VIN Walk report csv file aren't equal");
