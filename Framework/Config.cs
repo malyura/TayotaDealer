@@ -7,6 +7,7 @@ namespace Framework
     public class Config
     {
         public static string Url => GetConfiguration("url");
+        //dgdgdfgdfgdf
 
         public static int ImplicitlyWait => GetConfigurationToInt("implicit_wait");
 
